@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">ProyectoSpotifyYT</string>
+    <string name="notification_channel_name">Canal de Música</string>
+    <string name="notification_channel_description">Mostrando la canción actual</string>
 </resources>
