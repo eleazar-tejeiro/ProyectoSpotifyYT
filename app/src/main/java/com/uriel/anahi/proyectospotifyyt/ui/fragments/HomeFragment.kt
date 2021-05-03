@@ -6,10 +6,9 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.load.resource.transcode.UnitTranscoder
 import com.uriel.anahi.proyectospotifyyt.R
 import com.uriel.anahi.proyectospotifyyt.adapters.SongAdapter
-import com.uriel.anahi.proyectospotifyyt.data.other.Status
+import com.uriel.anahi.proyectospotifyyt.other.Status
 import com.uriel.anahi.proyectospotifyyt.ui.viewmodels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -17,6 +16,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home) {
+
     lateinit var mainViewModel: MainViewModel
 
     @Inject
@@ -28,7 +28,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         setupRecyclerView()
         subscribeToObservers()
 
-        songAdapter.setOnItemClickListener {
+        songAdapter.setItemClickListener {
             mainViewModel.playOrToggleSong(it)
         }
     }
@@ -53,3 +53,19 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -5,16 +5,19 @@ import com.google.android.exoplayer2.ExoPlaybackException
 import com.google.android.exoplayer2.Player
 import com.uriel.anahi.proyectospotifyyt.exoplayer.MusicService
 
-class MusicPlayerEventListener (
+class MusicPlayerEventListener(
     private val musicService: MusicService
-): Player.EventListener{
+) : Player.EventListener {
+
     override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
         super.onPlayerStateChanged(playWhenReady, playbackState)
-        if (playbackState == Player.STATE_READY && !playWhenReady){
+        if(playbackState == Player.STATE_READY && !playWhenReady) {
             musicService.stopForeground(false)
         }
     }
+
     override fun onPlayerError(error: ExoPlaybackException) {
-        Toast.makeText(musicService, "Error", Toast.LENGTH_SHORT).show()
+        super.onPlayerError(error)
+        Toast.makeText(musicService, "An unknown error occured", Toast.LENGTH_LONG).show()
     }
 }

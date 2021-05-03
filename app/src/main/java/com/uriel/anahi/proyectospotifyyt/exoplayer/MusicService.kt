@@ -1,28 +1,24 @@
 package com.uriel.anahi.proyectospotifyyt.exoplayer
 
 import android.app.PendingIntent
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaSessionCompat
-import android.telephony.MbmsDownloadSession
+import android.util.Log
 import androidx.media.MediaBrowserServiceCompat
-import androidx.media.R
-import com.google.android.exoplayer2.PlaybackParameters
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.ext.mediasession.MediaSessionConnector
 import com.google.android.exoplayer2.ext.mediasession.TimelineQueueNavigator
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
-import com.squareup.okhttp.Dispatcher
-import com.uriel.anahi.proyectospotifyyt.data.other.Constants.MEDIA_ROOT_ID
-import com.uriel.anahi.proyectospotifyyt.data.other.Constants.NETWORK_ERROR
 import com.uriel.anahi.proyectospotifyyt.exoplayer.callbacks.MusicPlaybackPreparer
 import com.uriel.anahi.proyectospotifyyt.exoplayer.callbacks.MusicPlayerEventListener
 import com.uriel.anahi.proyectospotifyyt.exoplayer.callbacks.MusicPlayerNotificationListener
+import com.uriel.anahi.proyectospotifyyt.other.Constants.MEDIA_ROOT_ID
+import com.uriel.anahi.proyectospotifyyt.other.Constants.NETWORK_ERROR
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import javax.inject.Inject
@@ -58,15 +54,12 @@ class MusicService : MediaBrowserServiceCompat() {
     private lateinit var musicPlayerEventListener: MusicPlayerEventListener
 
     companion object {
-        //permite declarar metodos y variables estáticas
-        //el equivalente en java seria public static final
         var curSongDuration = 0L
             private set
     }
 
     override fun onCreate() {
         super.onCreate()
-        //Envia la metadata al menu de notificacion
         serviceScope.launch {
             firebaseMusicSource.fetchMediaData()
         }
@@ -109,13 +102,12 @@ class MusicService : MediaBrowserServiceCompat() {
         musicNotificationManager.showNotification(exoPlayer)
     }
 
-    //se encarga de mostrar la informacion correcta de la cancion
     private inner class MusicQueueNavigator : TimelineQueueNavigator(mediaSession) {
         override fun getMediaDescription(player: Player, windowIndex: Int): MediaDescriptionCompat {
             return firebaseMusicSource.songs[windowIndex].description
         }
-
     }
+
     private fun preparePlayer(
         songs: List<MediaMetadataCompat>,
         itemToPlay: MediaMetadataCompat?,
@@ -127,21 +119,19 @@ class MusicService : MediaBrowserServiceCompat() {
         exoPlayer.playWhenReady = playNow
     }
 
-    //Para detener la ejecución de la música
     override fun onTaskRemoved(rootIntent: Intent?) {
         super.onTaskRemoved(rootIntent)
         exoPlayer.stop()
     }
 
-    //detiene everything en el reproductor de música
     override fun onDestroy() {
         super.onDestroy()
         serviceScope.cancel()
+
         exoPlayer.removeListener(musicPlayerEventListener)
         exoPlayer.release()
     }
 
-    //le asigna una ID a cada item (cancion, playlist) y retorna la correspondiente id
     override fun onGetRoot(
         clientPackageName: String,
         clientUid: Int,
@@ -150,7 +140,6 @@ class MusicService : MediaBrowserServiceCompat() {
         return BrowserRoot(MEDIA_ROOT_ID, null)
     }
 
-    //maneja la suscripcion de la id como cada objeto tiene una id, permite cargar dicha id al cliente
     override fun onLoadChildren(
         parentId: String,
         result: Result<MutableList<MediaBrowserCompat.MediaItem>>
@@ -166,8 +155,6 @@ class MusicService : MediaBrowserServiceCompat() {
                         }
                     } else {
                         mediaSession.sendSessionEvent(NETWORK_ERROR, null)
-                        //si esta listo pero no inicializado
-                        // hay un error y queremos que no envie nada
                         result.sendResult(null)
                     }
                 }
@@ -178,3 +165,26 @@ class MusicService : MediaBrowserServiceCompat() {
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

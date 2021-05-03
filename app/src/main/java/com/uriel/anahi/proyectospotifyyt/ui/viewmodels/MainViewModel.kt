@@ -2,21 +2,22 @@ package com.uriel.anahi.proyectospotifyyt.ui.viewmodels
 
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaMetadataCompat.METADATA_KEY_MEDIA_ID
+import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.uriel.anahi.proyectospotifyyt.data.entities.Song
-import com.uriel.anahi.proyectospotifyyt.data.other.Constants.MEDIA_ROOT_ID
-import com.uriel.anahi.proyectospotifyyt.data.other.Resource
 import com.uriel.anahi.proyectospotifyyt.exoplayer.MusicServiceConnection
 import com.uriel.anahi.proyectospotifyyt.exoplayer.isPlayEnabled
 import com.uriel.anahi.proyectospotifyyt.exoplayer.isPlaying
 import com.uriel.anahi.proyectospotifyyt.exoplayer.isPrepared
+import com.uriel.anahi.proyectospotifyyt.other.Constants.MEDIA_ROOT_ID
+import com.uriel.anahi.proyectospotifyyt.other.Resource
 
 class MainViewModel @ViewModelInject constructor(
     private val musicServiceConnection: MusicServiceConnection
-) : ViewModel () {
+) : ViewModel() {
     private val _mediaItems = MutableLiveData<Resource<List<Song>>>()
     val mediaItems: LiveData<Resource<List<Song>>> = _mediaItems
 
@@ -27,7 +28,7 @@ class MainViewModel @ViewModelInject constructor(
 
     init {
         _mediaItems.postValue(Resource.loading(null))
-        musicServiceConnection.subscribe(MEDIA_ROOT_ID, object : MediaBrowserCompat.SubscriptionCallback () {
+        musicServiceConnection.subscribe(MEDIA_ROOT_ID, object : MediaBrowserCompat.SubscriptionCallback() {
             override fun onChildrenLoaded(
                 parentId: String,
                 children: MutableList<MediaBrowserCompat.MediaItem>
@@ -62,7 +63,7 @@ class MainViewModel @ViewModelInject constructor(
     fun playOrToggleSong(mediaItem: Song, toggle: Boolean = false) {
         val isPrepared = playbackState.value?.isPrepared ?: false
         if(isPrepared && mediaItem.mediaId ==
-            curPlayingSong?.value?.getString(METADATA_KEY_MEDIA_ID)) {
+            curPlayingSong.value?.getString(METADATA_KEY_MEDIA_ID)) {
             playbackState.value?.let { playbackState ->
                 when {
                     playbackState.isPlaying -> if(toggle) musicServiceConnection.transportControls.pause()
@@ -77,8 +78,23 @@ class MainViewModel @ViewModelInject constructor(
 
     override fun onCleared() {
         super.onCleared()
-        musicServiceConnection.unsubscribe(MEDIA_ROOT_ID, object : MediaBrowserCompat.SubscriptionCallback() {
-
-        })
+        musicServiceConnection.unsubscribe(MEDIA_ROOT_ID, object : MediaBrowserCompat.SubscriptionCallback() {})
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -4,19 +4,16 @@ import android.app.PendingIntent
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
-import android.service.notification.NotificationListenerService
 import android.support.v4.media.session.MediaControllerCompat
 import android.support.v4.media.session.MediaSessionCompat
-import android.util.EventLogTags
-import android.widget.MediaController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.google.android.exoplayer2.Player
-import com.uriel.anahi.proyectospotifyyt.R
 import com.google.android.exoplayer2.ui.PlayerNotificationManager
-import com.uriel.anahi.proyectospotifyyt.data.other.Constants.NOTIFICATION_CHANNEL_ID
-import com.uriel.anahi.proyectospotifyyt.data.other.Constants.NOTIFICATION_ID
+import com.uriel.anahi.proyectospotifyyt.R
+import com.uriel.anahi.proyectospotifyyt.other.Constants.NOTIFICATION_CHANNEL_ID
+import com.uriel.anahi.proyectospotifyyt.other.Constants.NOTIFICATION_ID
 
 class MusicNotificationManager(
     private val context: Context,
@@ -52,6 +49,7 @@ class MusicNotificationManager(
     ) : PlayerNotificationManager.MediaDescriptionAdapter {
 
         override fun getCurrentContentTitle(player: Player): CharSequence {
+            newSongCallback()
             return mediaController.metadata.description.title.toString()
         }
 
@@ -83,4 +81,24 @@ class MusicNotificationManager(
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
