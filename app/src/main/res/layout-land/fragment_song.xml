@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.MainActivity">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvSongName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="SONG NAME"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/ivCardExtra"
+        app:layout_constraintTop_toTopOf="@+id/ivCardExtra" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvSongArtist"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:gravity="center"
+        android:text="ARTIST SONG"
+        android:textColor="@color/secondary_text"
+        android:textSize="@dimen/_15ssp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/ivCardExtra"
+        app:layout_constraintTop_toTopOf="@+id/ivCardExtra" />
+
+    <soup.neumorphism.NeumorphCardView
+        android:id="@+id/ivCardExtra"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:neumorph_shadowColorDark="@color/dark_shadow"
+        app:neumorph_shadowColorLight="@color/light_shadow"
+        app:neumorph_shapeAppearance="@style/NeumorphismCardImage">
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/ivSongImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_2sdp"
+            app:riv_oval="true" />
+    </soup.neumorphism.NeumorphCardView>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvCurTime"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="00:00"
+        android:layout_marginStart="16dp"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/seekBar"
+        app:layout_constraintStart_toEndOf="@+id/ivCardExtra"
+        app:layout_constraintTop_toTopOf="@+id/seekBar" />
+
+    <SeekBar
+        android:id="@+id/seekBar"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/_20sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/tvSongDuration"
+        app:layout_constraintStart_toEndOf="@+id/tvCurTime"
+        app:layout_constraintTop_toTopOf="parent"
+        android:progressDrawable="@drawable/progress_background"
+        android:splitTrack="false"
+        android:thumbTint="@android:color/transparent"
+        android:progress="90"/>
+
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvSongDuration"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="00:00"
+        android:layout_marginEnd="16dp"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/seekBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/seekBar" />
+
+    <com.github.sshadkany.CircleButton
+        android:id="@+id/ivContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_20sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tvCurTime"
+        app:layout_constraintTop_toBottomOf="@+id/seekBar"
+        app:shape_circle_dark_color="#66000000"
+        app:shape_circle_light_color="#66494949"
+        app:shape_circle_backgroundColor="@color/primary"
+        >
+
+        <ImageView
+            android:id="@+id/ivPlayPauseDetail"
+            android:layout_width="@dimen/_75sdp"
+            android:layout_height="@dimen/_75sdp"
+            android:padding="@dimen/_15sdp"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/ic_play"
+            app:tint="#d9d9d9" />
+
+    </com.github.sshadkany.CircleButton>
+
+    <soup.neumorphism.NeumorphImageView
+        android:id="@+id/ivSkipPrevious"
+        android:layout_width="@dimen/_54sdp"
+        android:layout_height="@dimen/_54sdp"
+        android:padding="@dimen/_16sdp"
+        android:src="@drawable/ic_skip_previous"
+        app:neumorph_shadowColorDark="@color/dark_shadow"
+        app:neumorph_shadowColorLight="@color/light_shadow"
+        app:layout_constraintBottom_toBottomOf="@+id/ivContainer"
+        app:layout_constraintEnd_toStartOf="@+id/ivContainer"
+        app:layout_constraintTop_toTopOf="@+id/ivContainer" />
+
+    <soup.neumorphism.NeumorphImageView
+        android:id="@+id/ivSkip"
+        android:layout_width="@dimen/_54sdp"
+        android:layout_height="@dimen/_54sdp"
+        android:padding="@dimen/_16sdp"
+        android:src="@drawable/ic_skip"
+        app:neumorph_shadowColorDark="@color/dark_shadow"
+        app:neumorph_shadowColorLight="@color/light_shadow"
+        app:layout_constraintBottom_toBottomOf="@+id/ivContainer"
+        app:layout_constraintStart_toEndOf="@+id/ivContainer"
+        app:layout_constraintTop_toTopOf="@+id/ivContainer" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.6" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.7" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

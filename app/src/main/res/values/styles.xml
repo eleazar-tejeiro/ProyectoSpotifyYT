@@ -58,6 +58,12 @@
         <item name="neumorph_cornerFamily">rounded</item>
         <item name="neumorph_cornerSize">@dimen/_115sdp</item>
     </style>
+
+    <style name="NeumorphismCardImageLand">
+        <item name="neumorph_cornerFamily">rounded</item>
+        <item name="neumorph_cornerSize">@dimen/_5sdp</item>
+    </style>
+
     <style name="NeumorphismImageOther">
         <item name="neumorph_cornerFamily">rounded</item>
         <item name="neumorph_cornerSize">@dimen/_21sdp</item>

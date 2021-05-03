@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/_36sdp"
-        app:constraint_referenced_ids=" ivSkipPrevious, ivPlayPauseDetail, ivSkip"
+        app:constraint_referenced_ids=" ivSkipPrevious, ivContainer, ivSkip"
         app:flow_maxElementsWrap="3"
         app:flow_wrapMode="aligned"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -28,17 +28,28 @@
         app:tint="@color/primary"
         tools:ignore="MissingConstraints" />
 
-    <ImageView
-        android:id="@+id/ivPlayPauseDetail"
-        android:layout_width="@dimen/_64sdp"
-        android:layout_height="@dimen/_64sdp"
+    <com.github.sshadkany.CircleButton
+        android:id="@+id/ivContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:padding="@dimen/_20sdp"
-        android:src="@drawable/ic_play"
-        app:tint="#d9d9d9"
-        android:background="@drawable/circle_drawable"
+        app:shape_circle_dark_color="#66000000"
+        app:shape_circle_light_color="#66494949"
+        app:shape_circle_backgroundColor="@color/primary"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="164dp"
-        tools:layout_editor_absoluteY="602dp" />
+        tools:layout_editor_absoluteY="602dp">
+
+        <ImageView
+            android:id="@+id/ivPlayPauseDetail"
+            android:layout_width="@dimen/_64sdp"
+            android:layout_height="@dimen/_64sdp"
+            android:padding="@dimen/_20sdp"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/ic_play"
+            app:tint="#d9d9d9" />
+
+    </com.github.sshadkany.CircleButton>
 
     <soup.neumorphism.NeumorphImageView
         android:id="@+id/ivSkip"
@@ -56,17 +67,16 @@
         android:id="@+id/cardSeekBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_12sdp"
-        android:layout_marginEnd="@dimen/_12sdp"
         android:layout_marginBottom="@dimen/_16sdp"
-        app:layout_constraintBottom_toTopOf="@id/ivPlayPauseDetail"
+        app:layout_constraintBottom_toTopOf="@id/ivContainer"
         app:neumorph_shadowColorDark="@color/dark_shadow"
-        app:neumorph_shadowColorLight="@color/light_shadow">
+        app:neumorph_shadowColorLight="@color/light_shadow"
+        tools:layout_editor_absoluteX="16dp">
 
         <SeekBar
             android:id="@+id/seekBar"
             android:layout_width="match_parent"
-            android:layout_height="18dp"
+            android:layout_height="@dimen/_20sdp"
             android:layout_margin="@dimen/_2sdp"
             android:paddingStart="0dp"
             android:paddingEnd="0dp"
@@ -106,7 +116,8 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/_20sdp"
         android:gravity="center"
-        android:textColor="@color/primary_text"
+        android:text="ARTISTA"
+        android:textColor="@color/secondary_text"
         android:textSize="@dimen/_15ssp"
         app:layout_constraintBottom_toTopOf="@id/tvCurTime" />
 
