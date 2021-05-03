@@ -28,7 +28,7 @@ class MusicServiceConnection(
 
     private val _curPlayingSong = MutableLiveData<MediaMetadataCompat?>()
     val curPlayingSong: LiveData<MediaMetadataCompat?> = _curPlayingSong
-    
+    //para manejar las opciones como adelantar pausar y retroceder
     lateinit var mediaController: MediaControllerCompat
 
     private val mediaBrowserConnectionCallback = MediaBrowserConnectionCallback(context)
@@ -42,18 +42,19 @@ class MusicServiceConnection(
         mediaBrowserConnectionCallback,
         null
     ).apply { connect() }
-
+    //adelantar cancion o regresar a la cancion anterior
     val transportControls: MediaControllerCompat.TransportControls
         get() = mediaController.transportControls
-
+    //tener acceso a la media en firebase
+    //se subscribe con la id unica a esa media almacenada en firebase
     fun subscribe(parentId: String, callback: MediaBrowserCompat.SubscriptionCallback) {
         mediaBrowser.subscribe(parentId, callback)
     }
-
+    //hace lo opuesto al anterior metodo
     fun unsubscribe(parentId: String, callback: MediaBrowserCompat.SubscriptionCallback) {
         mediaBrowser.unsubscribe(parentId, callback)
     }
-
+    //logica cuando la conexion falla  se suspende o es exitosa
     private inner class MediaBrowserConnectionCallback(
         private val context: Context
     ) : MediaBrowserCompat.ConnectionCallback() {
@@ -70,7 +71,7 @@ class MusicServiceConnection(
             Log.d("MusicServiceConnection", "SUSPENDED")
 
             _isConnected.postValue(Event(Resource.error(
-                "The connection was suspended", false
+                "La conexion fue suspendida.", false
             )))
         }
 
@@ -78,11 +79,11 @@ class MusicServiceConnection(
             Log.d("MusicServiceConnection", "FAILED")
 
             _isConnected.postValue(Event(Resource.error(
-                "Couldn't connect to media browser", false
+                "No se pudo conectar con la multimedia.", false
             )))
         }
     }
-
+    //cuando la metadata de la media cambia para actualizar el playback
     private inner class MediaContollerCallback : MediaControllerCompat.Callback() {
 
         override fun onPlaybackStateChanged(state: PlaybackStateCompat?) {
@@ -99,7 +100,7 @@ class MusicServiceConnection(
                 NETWORK_ERROR -> _networkError.postValue(
                     Event(
                         Resource.error(
-                            "Couldn't connect to the server. Please check your internet connection.",
+                            "No fue posible conectarse al servidor. Por favor revisa tu conexion a internet",
                             null
                         )
                     )
