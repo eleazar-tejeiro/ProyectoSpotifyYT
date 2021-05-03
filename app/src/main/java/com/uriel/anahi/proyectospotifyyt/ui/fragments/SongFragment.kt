@@ -1,5 +1,7 @@
 package com.uriel.anahi.proyectospotifyyt.ui.fragments
 
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.support.v4.media.session.PlaybackStateCompat
 import android.view.View
@@ -8,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.RequestManager
+import com.makeramen.roundedimageview.RoundedImageView
 import com.uriel.anahi.proyectospotifyyt.R
 import com.uriel.anahi.proyectospotifyyt.data.entities.Song
 import com.uriel.anahi.proyectospotifyyt.exoplayer.isPlaying
@@ -36,6 +39,7 @@ class SongFragment : Fragment(R.layout.fragment_song) {
 
     private var shouldUpdateSeekbar = true
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
@@ -49,7 +53,7 @@ class SongFragment : Fragment(R.layout.fragment_song) {
 
         seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                if(fromUser) {
+                if (fromUser) {
                     setCurPlayerTimeToTextView(progress.toLong())
                 }
             }
@@ -62,23 +66,36 @@ class SongFragment : Fragment(R.layout.fragment_song) {
                 seekBar?.let {
                     mainViewModel.seekTo(it.progress.toLong())
                     shouldUpdateSeekbar = true
+
                 }
             }
         })
 
         ivSkipPrevious.setOnClickListener {
             mainViewModel.skipToPreviousSong()
+            startAnimation(ivSongImage)
         }
 
         ivSkip.setOnClickListener {
             mainViewModel.skipToNextSong()
+            startAnimation(ivSongImage)
         }
     }
 
+    private fun startAnimation(view: View) {
+        val animador = ObjectAnimator.ofFloat(ivSongImage, "rotation", 0f, 360f)
+        animador.duration = 1000
+        val animatorSet = AnimatorSet()
+        animatorSet.playTogether(animador)
+        animatorSet.start()
+    }
+
     private fun updateTitleAndSongImage(song: Song) {
-        val title = "${song.title} - ${song.subtitle}"
+        val title = song.title
+        val artist = song.subtitle
         tvSongName.text = title
-        glide.load(song.imageUrl).into(ivSongImage)
+        tvSongArtist.text = artist
+        glide.load(song.imageUrl).into(ivSongImage as RoundedImageView)
     }
 
     private fun subscribeToObservers() {
@@ -87,7 +104,7 @@ class SongFragment : Fragment(R.layout.fragment_song) {
                 when(result.status) {
                     SUCCESS -> {
                         result.data?.let { songs ->
-                            if(curPlayingSong == null && songs.isNotEmpty()) {
+                            if (curPlayingSong == null && songs.isNotEmpty()) {
                                 curPlayingSong = songs[0]
                                 updateTitleAndSongImage(songs[0])
                             }
@@ -105,7 +122,7 @@ class SongFragment : Fragment(R.layout.fragment_song) {
         mainViewModel.playbackState.observe(viewLifecycleOwner) {
             playbackState = it
             ivPlayPauseDetail.setImageResource(
-                if(playbackState?.isPlaying == true) R.drawable.ic_pause else R.drawable.ic_play
+                if (playbackState?.isPlaying == true) R.drawable.ic_pause else R.drawable.ic_play
             )
             seekBar.progress = it?.position?.toInt() ?: 0
         }
