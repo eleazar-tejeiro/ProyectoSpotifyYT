@@ -44,17 +44,22 @@ class MusicServiceConnection (
         null
     ).apply { connect()  }
 
+    //adelantar cancion o regresar a la cancion anterior
     val transportControls: MediaControllerCompat.TransportControls
         get() = mediaController.transportControls
 
+    //tener acceso a la media en firebase
+    //se subscribe con la id unica a esa media almacenada en firebase
     fun subscribe(parentId: String, callback: MediaBrowserCompat.SubscriptionCallback) {
         mediaBrowser.subscribe(parentId, callback)
     }
 
+    //hace lo opuesto al anterior metodo
     fun unsubscribe(parentId: String, callback: MediaBrowserCompat.SubscriptionCallback) {
         mediaBrowser.unsubscribe(parentId, callback)
     }
 
+    //logica cuando la conexion falla  se suspende o es exitosa
     private inner class MediaBrowserConnectionCallback(
         private val context: Context
     ) : MediaBrowserCompat.ConnectionCallback() {
@@ -78,6 +83,7 @@ class MusicServiceConnection (
         }
     }
 
+    //cuando la metadata de la media cambia para actualizar el playback
     private inner class MediaControllerCallback : MediaControllerCompat.Callback() {
         override fun onPlaybackStateChanged(state: PlaybackStateCompat?) {
             _playbackState.postValue(state)

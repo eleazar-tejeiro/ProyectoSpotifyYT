@@ -1,8 +1,9 @@
-package com.uriel.anahi.proyectospotifyyt
+package com.uriel.anahi.proyectospotifyyt.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.bumptech.glide.RequestManager
+import com.uriel.anahi.proyectospotifyyt.R
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
