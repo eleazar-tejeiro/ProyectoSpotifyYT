@@ -19,6 +19,7 @@ import com.google.android.exoplayer2.ext.mediasession.TimelineQueueNavigator
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.squareup.okhttp.Dispatcher
 import com.uriel.anahi.proyectospotifyyt.data.other.Constants.MEDIA_ROOT_ID
+import com.uriel.anahi.proyectospotifyyt.data.other.Constants.NETWORK_ERROR
 import com.uriel.anahi.proyectospotifyyt.exoplayer.callbacks.MusicPlaybackPreparer
 import com.uriel.anahi.proyectospotifyyt.exoplayer.callbacks.MusicPlayerEventListener
 import com.uriel.anahi.proyectospotifyyt.exoplayer.callbacks.MusicPlayerNotificationListener
@@ -54,6 +55,15 @@ class MusicService : MediaBrowserServiceCompat() {
 
     private var isPlayerInitialized = false
 
+    private lateinit var musicPlayerEventListener: MusicPlayerEventListener
+
+    companion object {
+        //permite declarar metodos y variables estáticas
+        //el equivalente en java seria public static final
+        var curSongDuration = 0L
+            private set
+    }
+
     override fun onCreate() {
         super.onCreate()
         //Envia la metadata al menu de notificacion
@@ -77,7 +87,7 @@ class MusicService : MediaBrowserServiceCompat() {
             mediaSession.sessionToken,
             MusicPlayerNotificationListener(this)
         ) {
-
+            curSongDuration = exoPlayer.duration
         }
 
         val musicPlaybackPreparer = MusicPlaybackPreparer(firebaseMusicSource) {
@@ -93,8 +103,8 @@ class MusicService : MediaBrowserServiceCompat() {
         mediaSessionConnector.setPlaybackPreparer(musicPlaybackPreparer)
         mediaSessionConnector.setQueueNavigator(MusicQueueNavigator())
         mediaSessionConnector.setPlayer(exoPlayer)
-
-        exoPlayer.addListener(MusicPlayerEventListener(this))
+        musicPlayerEventListener = MusicPlayerEventListener(this)
+        exoPlayer.addListener(musicPlayerEventListener)
         musicNotificationManager.showNotification(exoPlayer)
     }
 
@@ -116,9 +126,18 @@ class MusicService : MediaBrowserServiceCompat() {
         exoPlayer.playWhenReady = playNow
     }
 
+    //Para detener la ejecución de la música
+    override fun onTaskRemoved(rootIntent: Intent?) {
+        super.onTaskRemoved(rootIntent)
+        exoPlayer.stop()
+    }
+
+    //detiene everything en el reproductor de música
     override fun onDestroy() {
         super.onDestroy()
         serviceScope.cancel()
+        exoPlayer.removeListener(musicPlayerEventListener)
+        exoPlayer.release()
     }
 
     //le asigna una ID a cada item (cancion, playlist) y retorna la correspondiente id
@@ -145,11 +164,13 @@ class MusicService : MediaBrowserServiceCompat() {
                             isPlayerInitialized = true
                         }
                     } else {
+                        mediaSession.sendSessionEvent(NETWORK_ERROR, null)
                         //si esta listo pero no inicializado
                         // hay un error y queremos que no envie nada
                         result.sendResult(null)
                     }
-                } if (!resultadoEnviado) {
+                }
+                if (!resultadoEnviado) {
                     result.detach()
                 }
             }
