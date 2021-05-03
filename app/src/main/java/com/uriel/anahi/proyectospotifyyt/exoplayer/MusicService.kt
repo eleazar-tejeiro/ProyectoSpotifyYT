@@ -103,6 +103,7 @@ class MusicService : MediaBrowserServiceCompat() {
         mediaSessionConnector.setPlaybackPreparer(musicPlaybackPreparer)
         mediaSessionConnector.setQueueNavigator(MusicQueueNavigator())
         mediaSessionConnector.setPlayer(exoPlayer)
+
         musicPlayerEventListener = MusicPlayerEventListener(this)
         exoPlayer.addListener(musicPlayerEventListener)
         musicNotificationManager.showNotification(exoPlayer)
@@ -156,8 +157,8 @@ class MusicService : MediaBrowserServiceCompat() {
     ) {
         when(parentId) {
             MEDIA_ROOT_ID -> {
-                val resultadoEnviado = firebaseMusicSource.whenReady { esInicializado ->
-                    if (esInicializado) {
+                val resultsSent = firebaseMusicSource.whenReady { isInitialized ->
+                    if(isInitialized) {
                         result.sendResult(firebaseMusicSource.asMediaItems())
                         if(!isPlayerInitialized && firebaseMusicSource.songs.isNotEmpty()) {
                             preparePlayer(firebaseMusicSource.songs, firebaseMusicSource.songs[0], false)
@@ -170,7 +171,7 @@ class MusicService : MediaBrowserServiceCompat() {
                         result.sendResult(null)
                     }
                 }
-                if (!resultadoEnviado) {
+                if(!resultsSent) {
                     result.detach()
                 }
             }
