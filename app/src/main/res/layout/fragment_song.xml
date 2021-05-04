@@ -9,7 +9,7 @@
     <androidx.constraintlayout.helper.widget.Flow
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/_36sdp"
+        android:layout_marginBottom="@dimen/_25sdp"
         app:constraint_referenced_ids=" ivSkipPrevious, ivContainer, ivSkip"
         app:flow_maxElementsWrap="3"
         app:flow_wrapMode="aligned"
@@ -32,7 +32,7 @@
         android:id="@+id/ivContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="@dimen/_20sdp"
+        android:padding="@dimen/_15sdp"
         app:shape_circle_dark_color="#66000000"
         app:shape_circle_light_color="#66494949"
         app:shape_circle_backgroundColor="@color/primary"
@@ -44,7 +44,7 @@
             android:id="@+id/ivPlayPauseDetail"
             android:layout_width="@dimen/_64sdp"
             android:layout_height="@dimen/_64sdp"
-            android:padding="@dimen/_20sdp"
+            android:padding="@dimen/_5sdp"
             android:layout_gravity="center"
             app:srcCompat="@drawable/ic_play"
             app:tint="#d9d9d9" />
@@ -78,12 +78,15 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/_20sdp"
             android:layout_margin="@dimen/_2sdp"
+            android:layout_marginBottom="@dimen/_16sdp"
+            app:layout_constraintBottom_toTopOf="@id/ivContainer"
             android:paddingStart="0dp"
             android:paddingEnd="0dp"
             android:progress="90"
             android:progressDrawable="@drawable/progress_background"
             android:splitTrack="false"
-            android:thumbTint="@android:color/transparent" />
+            android:thumbTint="@android:color/transparent"
+            tools:layout_editor_absoluteX="16dp"/>
         <!-- android:progressDrawable="@drawable/progress_background" -->
 
     </soup.neumorphism.NeumorphCardView>
@@ -114,7 +117,7 @@
         android:id="@+id/tvSongArtist"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/_20sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
         android:gravity="center"
         android:text="ARTISTA"
         android:textColor="@color/secondary_text"
@@ -136,7 +139,7 @@
     <com.google.android.material.textview.MaterialTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="5dp"
         android:gravity="center"
         android:text="REPRODUCIENDO AHORA"
         android:textColor="@color/secondary_text"
