@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#08FF04</color>
+    <color name="colorPrimary">#cb29d4</color>
     <color name="colorPrimaryDark">#3700B3</color>
-    <color name="colorAccent">#08FF04</color>
+    <color name="colorAccent">#cb29d4</color>
     <color name="mediumDarkBackground">#303030</color>
     <color name="darkBackground">#202020</color>
     <color name="lightBackground">#404040</color>
+
+    <!-- CUSTOM COLORS -->
+    <color name="primary">#cb29d4</color>
+    <color name="background">#202020</color>
+    <color name="primary_text">#d7d7d7</color>
+    <color name="secondary_text">#525252</color>
+    <color name="dark_shadow">#222528</color>
+    <color name="light_shadow">#2c2e32</color>
 </resources>

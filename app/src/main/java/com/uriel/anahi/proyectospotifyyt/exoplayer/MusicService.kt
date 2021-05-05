@@ -54,12 +54,15 @@ class MusicService : MediaBrowserServiceCompat() {
     private lateinit var musicPlayerEventListener: MusicPlayerEventListener
 
     companion object {
+        //permite declarar metodos y variables estáticas
+        //el equivalente en java seria public static final
         var curSongDuration = 0L
             private set
     }
 
     override fun onCreate() {
         super.onCreate()
+        //Envia la metadata al menu de notificacion
         serviceScope.launch {
             firebaseMusicSource.fetchMediaData()
         }
@@ -101,7 +104,7 @@ class MusicService : MediaBrowserServiceCompat() {
         exoPlayer.addListener(musicPlayerEventListener)
         musicNotificationManager.showNotification(exoPlayer)
     }
-
+    //se encarga de mostrar la informacion correcta de la cancion
     private inner class MusicQueueNavigator : TimelineQueueNavigator(mediaSession) {
         override fun getMediaDescription(player: Player, windowIndex: Int): MediaDescriptionCompat {
             return firebaseMusicSource.songs[windowIndex].description
@@ -119,11 +122,13 @@ class MusicService : MediaBrowserServiceCompat() {
         exoPlayer.playWhenReady = playNow
     }
 
+    //Para detener la ejecución de la música
     override fun onTaskRemoved(rootIntent: Intent?) {
         super.onTaskRemoved(rootIntent)
         exoPlayer.stop()
     }
 
+    //detiene el reproductor de música
     override fun onDestroy() {
         super.onDestroy()
         serviceScope.cancel()
@@ -132,6 +137,7 @@ class MusicService : MediaBrowserServiceCompat() {
         exoPlayer.release()
     }
 
+    //le asigna una ID a cada item (cancion, playlist) y retorna la correspondiente id
     override fun onGetRoot(
         clientPackageName: String,
         clientUid: Int,
@@ -140,6 +146,7 @@ class MusicService : MediaBrowserServiceCompat() {
         return BrowserRoot(MEDIA_ROOT_ID, null)
     }
 
+    //maneja la suscripcion de la id como cada objeto tiene una id, permite cargar dicha id al cliente
     override fun onLoadChildren(
         parentId: String,
         result: Result<MutableList<MediaBrowserCompat.MediaItem>>
@@ -154,6 +161,8 @@ class MusicService : MediaBrowserServiceCompat() {
                             isPlayerInitialized = true
                         }
                     } else {
+                        //si esta listo pero no inicializado
+                        // hay un error y queremos que no envie nada
                         mediaSession.sendSessionEvent(NETWORK_ERROR, null)
                         result.sendResult(null)
                     }

@@ -14,6 +14,9 @@ import dagger.hilt.android.components.ApplicationComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Singleton
 
+//especificamos mediante dagger que es un modulo
+//con installIn le indicamos el tiempo de vida, en este caso será el equivalente a una clase estatica
+//estara disponible mientras la app siga en ejecucion
 @Module
 @InstallIn(ApplicationComponent::class)
 object AppModule {

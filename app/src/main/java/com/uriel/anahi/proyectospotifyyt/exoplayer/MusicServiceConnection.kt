@@ -60,7 +60,7 @@ class MusicServiceConnection(
     ) : MediaBrowserCompat.ConnectionCallback() {
 
         override fun onConnected() {
-            Log.d("MusicServiceConnection", "CONNECTED")
+            Log.d("MusicServiceConnection", "CONECTADO")
             mediaController = MediaControllerCompat(context, mediaBrowser.sessionToken).apply {
                 registerCallback(MediaContollerCallback())
             }
@@ -68,7 +68,7 @@ class MusicServiceConnection(
         }
 
         override fun onConnectionSuspended() {
-            Log.d("MusicServiceConnection", "SUSPENDED")
+            Log.d("MusicServiceConnection", "SUSPENDIDO")
 
             _isConnected.postValue(Event(Resource.error(
                 "La conexion fue suspendida.", false
@@ -76,7 +76,7 @@ class MusicServiceConnection(
         }
 
         override fun onConnectionFailed() {
-            Log.d("MusicServiceConnection", "FAILED")
+            Log.d("MusicServiceConnection", "FALLIDO")
 
             _isConnected.postValue(Event(Resource.error(
                 "No se pudo conectar con la multimedia.", false
