@@ -32,7 +32,7 @@
         android:id="@+id/ivContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="@dimen/_15sdp"
+        android:padding="@dimen/_23sdp"
         app:shape_circle_dark_color="#66000000"
         app:shape_circle_light_color="#66494949"
         app:shape_circle_backgroundColor="@color/primary"
@@ -76,7 +76,7 @@
         <SeekBar
             android:id="@+id/seekBar"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_20sdp"
+            android:layout_height="@dimen/_6sdp"
             android:layout_margin="@dimen/_2sdp"
             android:layout_marginBottom="@dimen/_16sdp"
             app:layout_constraintBottom_toTopOf="@id/ivContainer"
